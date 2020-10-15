@@ -1,20 +1,16 @@
-use curl::easy::Easy;
-use std::io::{stdout, Write, stdin};
+// use curl::easy::Easy;
+// use std::io::{stdin, stdout, Write};
+use infrastructure::youtube_curl::get_video_info;
+
+mod domain;
+mod infrastructure;
 
 fn main() {
-    let mut guess = String::new();
+    // let mut youtube_id = String::new();
+    // stdin()
+    //     .read_line(&mut youtube_id)
+    //     .expect("Failed to read line");
 
-        stdin()
-            .read_line(&mut guess)
-            .expect("Failed to read line");
-
-    let mut easy = Easy::new();
-    easy.url("https://www.rust-lang.org/").unwrap();
-    easy.write_function(|data| {
-        stdout().write_all(data).unwrap();
-        Ok(data.len())
-    }).unwrap();
-    easy.perform().unwrap();
-
-    println!("{}", easy.response_code().unwrap());
+    let info = get_video_info();
+    println!("{}", info);
 }
