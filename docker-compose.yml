@@ -6,4 +6,4 @@ services:
     environment:
       - USER=$USER
     volumes:
-      - .:/app:cashed
+      - .:/app:cached
