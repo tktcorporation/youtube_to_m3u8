@@ -2,8 +2,8 @@ version: "3.7"
 services:
   app:
     image: rust
-    working_dir: /app/youtube_to_m3u8
+    working_dir: /work
     environment:
       - USER=$USER
     volumes:
-      - .:/app:cached
+      - .:/work:cached
