@@ -16,23 +16,20 @@ async fn request(id: &str) -> String {
 
 #[cfg(test)]
 mod tests {
+    use crate::domain::types::youtube::video::id;
     use crate::infrastructure::youtube_curl;
 
     #[tokio::test]
     async fn it_request() {
-        let url = youtube_curl::request("rvkxtVkvawc");
-        assert_eq!(
-            "https%3A%2F%2Fmanifest.googlevideo.com/xxxxxxxxxxxxxxxxxx.m3u8",
-            url.await
-        );
+        let id = id::new("rvkxtVkvawc");
+        let url = youtube_curl::request(&id);
+        assert_eq!(true, url.await.len() > 100);
     }
 
     #[tokio::test]
     async fn it_get_m3u8() {
-        let url = youtube_curl::get_m3u8();
-        assert_eq!(
-            "https%3A%2F%2Fmanifest.googlevideo.com/xxxxxxxxxxxxxxxxxx.m3u8",
-            url.await.get_url()
-        );
+        let id = id::new("rvkxtVkvawc");
+        let m3u8url = youtube_curl::get_m3u8(&id);
+        assert_eq!(true, m3u8url.await.get_url().len() > 20);
     }
 }
