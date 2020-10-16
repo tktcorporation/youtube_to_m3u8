@@ -19,7 +19,6 @@ pub fn new(body: &str) -> Result<Info, &str> {
 impl Info {
     pub fn extract_m3u8_url(&self) -> m3u8::M3U8 {
         let re = Regex::new(r"(?P<url>https%3A%2F%2Fmanifest.googlevideo.com.+m3u8)").unwrap();
-        println!("{}", &self.body);
         let caps = re.captures(&self.body).expect(NOT_FOUND_M3U8);
         m3u8::new(&caps["url"].to_string())
     }
