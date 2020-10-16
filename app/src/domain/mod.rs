@@ -1,1 +1,2 @@
-pub mod video_info;
+pub mod structs;
+pub mod types;
