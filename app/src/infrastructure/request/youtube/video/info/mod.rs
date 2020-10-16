@@ -17,18 +17,33 @@ pub async fn request(id: &youtube::video::id::Id) -> youtube::video::info::Info 
         .send()
         .await
         .unwrap();
-    youtube::video::info::new(&res.text().await.unwrap())
+    let body = &res.text().await.unwrap();
+    youtube::video::info::new(body).unwrap()
 }
 
-// #[cfg(test)]
-// mod tests {
-//     use super::*;
-//     use crate::domain::youtube::video::id;
+#[cfg(test)]
+mod tests {
+    use super::*;
 
-//     #[tokio::test]
-//     async fn it_request() {
-//         let id = id::new("rvkxtVkvawc");
-//         let info = request(&id);
-//         assert_eq!(true, info.await.get_body().len() > 100);
-//     }
-// }
+    #[test]
+    fn it_string_join() {
+        let mut url = String::from(BASE_URL);
+        url.push_str(PATH_OF_GET_VIDEO_INFO);
+        assert_eq!("https://www.youtube.com/get_video_info", url);
+    }
+
+    #[tokio::test]
+    async fn it_request() {
+        let info = request(&youtube::video::id::new("rvkxtVkvawc")).await;
+        assert_eq!(true, info.get_body().len() > 50);
+    }
+    // use super::*;
+    // use crate::domain::youtube::video::id;
+
+    // #[tokio::test]
+    // async fn it_request() {
+    //     let id = id::new("rvkxtVkvawc");
+    //     let info = request(&id);
+    //     assert_eq!(true, info.await.get_body().len() > 100);
+    // }
+}
