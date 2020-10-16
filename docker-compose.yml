@@ -7,3 +7,4 @@ services:
       - USER=$USER
     volumes:
       - .:/work:cached
+      - /work/app/target/
