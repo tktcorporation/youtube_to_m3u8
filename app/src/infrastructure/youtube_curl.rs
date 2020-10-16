@@ -1,6 +1,6 @@
 use crate::domain;
 use domain::types::m3u8_url;
-use domain::types::youtube;
+use domain::youtube;
 
 pub async fn get_m3u8(id: &youtube::video::id::Id) -> m3u8_url::M3U8url {
     m3u8_url::parse(&request(id).await)
@@ -17,7 +17,7 @@ async fn request(id: &youtube::video::id::Id) -> String {
 
 #[cfg(test)]
 mod tests {
-    use crate::domain::types::youtube::video::id;
+    use crate::domain::youtube::video::id;
     use crate::infrastructure::youtube_curl;
 
     #[tokio::test]

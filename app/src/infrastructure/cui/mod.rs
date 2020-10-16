@@ -1,4 +1,4 @@
-use super::super::domain::types::youtube;
+use super::super::domain::youtube;
 use std::io::stdin;
 pub fn receive_youtube_id_from_user() -> youtube::video::id::Id {
     let mut youtube_id = String::new();
