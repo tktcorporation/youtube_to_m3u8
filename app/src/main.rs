@@ -1,16 +1,15 @@
-// use curl::easy::Easy;
-// use std::io::{stdin, stdout, Write};
-use infrastructure::youtube_curl::get_video_info;
+use infrastructure::youtube_curl;
 
 mod domain;
 mod infrastructure;
 
-fn main() {
+#[tokio::main]
+async fn main() {
     // let mut youtube_id = String::new();
     // stdin()
     //     .read_line(&mut youtube_id)
     //     .expect("Failed to read line");
 
-    let info = get_video_info();
-    println!("{}", info);
+    let info = youtube_curl::get_m3u8();
+    println!("{}", info.await.get_url());
 }
