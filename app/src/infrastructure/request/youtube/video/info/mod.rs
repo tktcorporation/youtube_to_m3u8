@@ -20,15 +20,15 @@ pub async fn request(id: &youtube::video::id::Id) -> youtube::video::info::Info 
     youtube::video::info::new(&res.text().await.unwrap())
 }
 
-#[cfg(test)]
-mod tests {
-    use super::*;
-    use crate::domain::youtube::video::id;
+// #[cfg(test)]
+// mod tests {
+//     use super::*;
+//     use crate::domain::youtube::video::id;
 
-    #[tokio::test]
-    async fn it_request() {
-        let id = id::new("rvkxtVkvawc");
-        let info = request(&id);
-        assert_eq!(true, info.await.get_body().len() > 100);
-    }
-}
+//     #[tokio::test]
+//     async fn it_request() {
+//         let id = id::new("rvkxtVkvawc");
+//         let info = request(&id);
+//         assert_eq!(true, info.await.get_body().len() > 100);
+//     }
+// }

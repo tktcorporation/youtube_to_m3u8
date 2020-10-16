@@ -15,9 +15,9 @@ impl Info {
         let caps = re.captures(&self.body).unwrap();
         m3u8::new(&caps["url"].to_string())
     }
-    pub fn get_body(&self) -> &str {
-        &self.body
-    }
+    // pub fn get_body(&self) -> &str {
+    //     &self.body
+    // }
 }
 
 #[cfg(test)]
