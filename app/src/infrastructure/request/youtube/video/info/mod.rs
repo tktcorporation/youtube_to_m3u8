@@ -35,15 +35,8 @@ mod tests {
     #[tokio::test]
     async fn it_request() {
         let info = request(&youtube::video::id::new("rvkxtVkvawc")).await;
-        assert_eq!(true, info.get_body().len() > 50);
+        assert_eq!(true, info.get_body().len() > 100);
     }
     // use super::*;
     // use crate::domain::youtube::video::id;
-
-    // #[tokio::test]
-    // async fn it_request() {
-    //     let id = id::new("rvkxtVkvawc");
-    //     let info = request(&id);
-    //     assert_eq!(true, info.await.get_body().len() > 100);
-    // }
 }
