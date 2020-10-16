@@ -7,5 +7,6 @@ pub fn receive_youtube_id_from_user() -> youtube::video::id::Id {
     stdin()
         .read_line(&mut youtube_id)
         .expect("Failed to read line");
-    youtube::video::id::new(&youtube_id)
+    println!("input: \"{}\"", youtube_id);
+    youtube::video::id::new(&youtube_id.trim())
 }
