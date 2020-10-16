@@ -10,3 +10,4 @@ edition = "2018"
 regex = "1"
 reqwest = { version = "0.10", features = ["json"] }
 tokio = { version = "0.2", features = ["full"] }
+percent-encoding = "2.1"
