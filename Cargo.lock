@@ -1146,7 +1146,7 @@ dependencies = [
 
 [[package]]
 name = "youtube_to_m3u8"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "native-tls",
  "percent-encoding",
