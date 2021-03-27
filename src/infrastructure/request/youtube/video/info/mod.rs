@@ -6,7 +6,7 @@ const MAC_SAFARI_USER_AGENT: &str = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_1
 const PATH_OF_GET_VIDEO_INFO: &str = "/get_video_info";
 const KEY_OF_VIDEO_ID: &str = "video_id";
 
-pub async fn request(id: &youtube::video::id::Id) -> youtube::video::info::Info {
+pub async fn request(id: &youtube::video::id::Id) -> Result<youtube::video::info::Info, String> {
     let mut url = String::from(BASE_URL);
     url.push_str(PATH_OF_GET_VIDEO_INFO);
     let client = reqwest::Client::new();
@@ -18,7 +18,11 @@ pub async fn request(id: &youtube::video::id::Id) -> youtube::video::info::Info 
         .await
         .unwrap();
     let body = &res.text().await.unwrap();
-    youtube::video::info::new(body).unwrap()
+    
+    match youtube::video::info::new(body) {
+        Ok(info) => Ok(info),
+        Err(e) => Err(e.to_owned())
+    }
 }
 
 #[cfg(test)]
@@ -34,8 +38,14 @@ mod tests {
 
     #[tokio::test]
     async fn it_request() {
-        let info = request(&youtube::video::id::new("rvkxtVkvawc")).await;
-        assert_eq!(true, info.get_body().len() > 100);
+        let is = request(&youtube::video::id::new("rvkxtVkvawc")).await.is_err();
+        assert_eq!(is, false);
+    }
+
+    #[tokio::test]
+    async fn it_request_fail() {
+        let is = request(&youtube::video::id::new("xxxx")).await.is_err();
+        assert_eq!(is, true);
     }
     // use super::*;
     // use crate::domain::models::youtube::video::id;

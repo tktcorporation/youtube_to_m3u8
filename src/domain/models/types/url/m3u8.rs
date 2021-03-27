@@ -1,10 +1,16 @@
 use percent_encoding::percent_decode_str;
+use regex::Regex;
 
+const NOT_FOUND_M3U8: &str = "invalid m3u8 url is received: {}";
+
+#[derive(Debug,PartialEq)]
 pub struct M3U8 {
     value: String,
 }
 
 pub fn new(st: &str) -> M3U8 {
+    let re = Regex::new(r"(?P<url>https%3A%2F%2F.+m3u8)").unwrap();
+    re.captures(st).expect(NOT_FOUND_M3U8);
     M3U8 {
         value: st.to_string(),
     }
