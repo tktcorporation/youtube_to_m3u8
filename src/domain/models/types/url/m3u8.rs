@@ -3,7 +3,7 @@ use regex::Regex;
 
 const NOT_FOUND_M3U8: &str = "invalid m3u8 url is received: {}";
 
-#[derive(Debug,PartialEq)]
+#[derive(Debug, PartialEq)]
 pub struct M3U8 {
     value: String,
 }

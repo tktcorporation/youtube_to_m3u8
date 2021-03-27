@@ -18,10 +18,10 @@ pub async fn request(id: &youtube::video::id::Id) -> Result<youtube::video::info
         .await
         .unwrap();
     let body = &res.text().await.unwrap();
-    
+
     match youtube::video::info::new(body) {
         Ok(info) => Ok(info),
-        Err(e) => Err(e.to_owned())
+        Err(e) => Err(e.to_owned()),
     }
 }
 
@@ -38,7 +38,9 @@ mod tests {
 
     #[tokio::test]
     async fn it_request() {
-        let is = request(&youtube::video::id::new("rvkxtVkvawc")).await.is_err();
+        let is = request(&youtube::video::id::new("rvkxtVkvawc"))
+            .await
+            .is_err();
         assert_eq!(is, false);
     }
 
