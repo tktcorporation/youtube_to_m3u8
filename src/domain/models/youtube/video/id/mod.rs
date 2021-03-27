@@ -1,3 +1,5 @@
+use std::fmt;
+
 pub struct Id {
     value: String,
 }
@@ -6,8 +8,8 @@ pub fn new(st: &str) -> Id {
         value: st.to_string(),
     }
 }
-impl Id {
-    pub fn to_string(&self) -> String {
-        self.value.clone()
+impl fmt::Display for Id {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "{}", self.value)
     }
 }

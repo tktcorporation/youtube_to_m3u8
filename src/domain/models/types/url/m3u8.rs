@@ -11,9 +11,6 @@ pub fn new(st: &str) -> M3U8 {
 }
 
 impl M3U8 {
-    pub fn to_string(&self) -> &str {
-        &self.value
-    }
     pub fn url_decode(&self) -> String {
         percent_decode_str(&self.value)
             .decode_utf8()

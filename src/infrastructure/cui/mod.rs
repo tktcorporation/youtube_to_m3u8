@@ -1,6 +1,7 @@
 use crate::domain::models::youtube;
 use std::io::stdin;
 
+#[allow(dead_code)]
 pub fn receive_youtube_id_from_user_by_stdin() -> youtube::video::id::Id {
     let mut youtube_id = String::new();
     println!("please enter an id of youtube video: ");

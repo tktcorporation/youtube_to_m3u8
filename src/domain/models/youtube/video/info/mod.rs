@@ -22,9 +22,6 @@ impl Info {
         let caps = re.captures(&self.body).expect(NOT_FOUND_M3U8);
         m3u8::new(&caps["url"].to_string())
     }
-    pub fn get_body(&self) -> &str {
-        &self.body
-    }
 }
 
 #[cfg(test)]
