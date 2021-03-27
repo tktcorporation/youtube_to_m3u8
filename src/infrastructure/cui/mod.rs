@@ -1,4 +1,4 @@
-use crate::domain::youtube;
+use crate::domain::models::youtube;
 use std::io::stdin;
 
 pub fn receive_youtube_id_from_user_by_stdin() -> youtube::video::id::Id {

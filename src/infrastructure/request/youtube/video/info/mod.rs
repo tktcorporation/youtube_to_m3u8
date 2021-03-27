@@ -1,6 +1,6 @@
 use crate::domain;
 use crate::infrastructure::request::youtube::BASE_URL;
-use domain::youtube;
+use domain::models::youtube;
 
 const MAC_SAFARI_USER_AGENT: &str = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_6) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0 Safari/605.1.15";
 const PATH_OF_GET_VIDEO_INFO: &str = "/get_video_info";
@@ -38,5 +38,5 @@ mod tests {
         assert_eq!(true, info.get_body().len() > 100);
     }
     // use super::*;
-    // use crate::domain::youtube::video::id;
+    // use crate::domain::models::youtube::video::id;
 }

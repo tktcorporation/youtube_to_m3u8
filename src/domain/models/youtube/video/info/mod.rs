@@ -1,4 +1,4 @@
-use crate::domain::types::url::m3u8;
+use crate::domain::models::types::url::m3u8;
 use regex::Regex;
 
 const NOT_FOUND_M3U8: &str = "A m3u8 url is not found: {}";
