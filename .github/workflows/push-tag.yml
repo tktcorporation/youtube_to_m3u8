@@ -39,7 +39,7 @@ jobs:
           fi
 
       - name: Push Tag
-        if: steps.check_push.outputs.is_push
+        if: steps.check_push.outputs.is_push == 'true'
         run: |
           git tag ${{ steps.tag_name.outputs.tag_name }}
           git push origin ${{ steps.tag_name.outputs.tag_name }}
