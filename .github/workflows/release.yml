@@ -28,15 +28,14 @@ jobs:
       - name: Check push
         id: check_push
         run: |
-          # if [ ${{ steps.previoustag.outputs.tag }} != ${{ steps.tag_name.outputs.tag_name }} ] ; then
-          #   echo ::set-output name=is_push::true
-          # else
-          #   echo ::set-output name=is_push::false
-          # fi
-          echo ::set-output name=is_push::false
+          if [ ${{ steps.previoustag.outputs.tag }} != ${{ steps.tag_name.outputs.tag_name }} ] ; then
+            echo ::set-output name=is_push::true
+          else
+            echo ::set-output name=is_push::false
+          fi
 
       - name: push tag
-        if: steps.check_push.outputs.is_push
+        if: steps.check_push.outputs.is_push == 'true'
         run: |
           git tag ${{ steps.tag_name.outputs.tag_name }}
           git push origin ${{ steps.tag_name.outputs.tag_name }}
@@ -45,7 +44,7 @@ jobs:
   cargo_publish:
     name: Publish Cargo Package
     needs: create_git_tag
-    if: needs.create_git_tag.outputs.is_new_release
+    if: needs.create_git_tag.outputs.is_new_release == 'true'
     runs-on: ubuntu-latest
     steps:
       - name: Setup | Checkout
@@ -89,7 +88,7 @@ jobs:
   github_build:
     name: Build release binaries
     needs: create_git_tag
-    if: needs.create_git_tag.outputs.is_new_release
+    if: needs.create_git_tag.outputs.is_new_release == 'true'
     strategy:
       fail-fast: false
       matrix:
@@ -201,7 +200,7 @@ jobs:
   github_release:
     name: Create GitHub Release
     needs: [github_build, create_git_tag]
-    if: needs.create_git_tag.outputs.is_new_release
+    if: needs.create_git_tag.outputs.is_new_release == 'true'
     runs-on: ubuntu-latest
     steps:
       - name: Setup | Checkout
