@@ -29,13 +29,13 @@ jobs:
         id: check_push
         run: |
           if [ ${{ steps.previoustag.outputs.tag }} != ${{ steps.tag_name.outputs.tag_name }} ] ; then
-            echo ::set-output name=is_push::"true"
+            echo ::set-output name=is_push::true
           else
-            echo ::set-output name=is_push::"false"
+            echo ::set-output name=is_push::false
           fi
 
       - name: push tag
-        if: steps.check_push.outputs.is_push == "true"
+        if: steps.check_push.outputs.is_push
         run: |
           git tag ${{ steps.tag_name.outputs.tag_name }}
           git push origin ${{ steps.tag_name.outputs.tag_name }}
