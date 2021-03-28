@@ -18,7 +18,7 @@ jobs:
         run: echo ::set-output name=tag_name::v$(cat Cargo.toml | grep -m1 "version" | cut -d " " -f 3 | tr -d '"')
 
       - name: push tag
-        if: $(git describe --tags `git rev-list --tags --max-count=1`) != steps.tag_name.outputs.tag_name
+        if: ${{ git describe --tags `git rev-list --tags --max-count=1`) }} != steps.tag_name.outputs.tag_name
         run: |
           git tag ${{ steps.tag_name.outputs.tag_name }}
           git push origin ${{ steps.tag_name.outputs.tag_name }}
