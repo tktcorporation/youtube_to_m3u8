@@ -8,6 +8,10 @@ on:
 jobs:
   create_git_tag:
     runs-on: ubuntu-latest
+    name: Push Tag
+    id: push_tag
+    outputs:
+      is_new_release: ${{ steps.check_push.outputs.is_push }}
     steps:
       - name: checkout
         uses: actions/checkout@v2.2.0
@@ -22,8 +26,17 @@ jobs:
         id: previoustag
         uses: "WyriHaximus/github-action-get-previous-tag@v1"
 
+      - name: Check push
+        id: check_push
+        run: |
+          if [ ${{ steps.previoustag.outputs.tag }} != ${{ steps.tag_name.outputs.tag_name }} ] ; then
+            echo ::set-output name=is_push::"true"
+          else
+            echo ::set-output name=is_push::"false"
+          fi
+
       - name: push tag
-        if: steps.previoustag.outputs.tag != steps.tag_name.outputs.tag_name
+        if: steps.check_push.outputs.is_push == "true"
         run: |
           git tag ${{ steps.tag_name.outputs.tag_name }}
           git push origin ${{ steps.tag_name.outputs.tag_name }}
@@ -32,6 +45,7 @@ jobs:
   cargo_publish:
     name: Publish Cargo Package
     needs: create_git_tag
+    if: needs.create_git_tag.outputs.is_new_release == "true"
     runs-on: ubuntu-latest
     steps:
       - name: Setup | Checkout
@@ -75,6 +89,7 @@ jobs:
   github_build:
     name: Build release binaries
     needs: create_git_tag
+    if: needs.create_git_tag.outputs.is_new_release == "true"
     strategy:
       fail-fast: false
       matrix:
@@ -186,6 +201,7 @@ jobs:
   github_release:
     name: Create GitHub Release
     needs: [github_build, create_git_tag]
+    if: needs.create_git_tag.outputs.is_new_release == "true"
     runs-on: ubuntu-latest
     steps:
       - name: Setup | Checkout
