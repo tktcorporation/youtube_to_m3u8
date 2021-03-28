@@ -9,7 +9,6 @@ jobs:
   create_git_tag:
     runs-on: ubuntu-latest
     name: Push Tag
-    id: push_tag
     outputs:
       is_new_release: ${{ steps.check_push.outputs.is_push }}
     steps:
