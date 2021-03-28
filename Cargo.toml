@@ -1,6 +1,6 @@
 [package]
 name = "youtube_to_m3u8"
-version = "0.1.1"
+version = "0.1.2"
 authors = ["tktcorporation <tktcorporation.go@gmail.com>"]
 edition = "2018"
 description = "To get a m3u8 url of youtube videos."
