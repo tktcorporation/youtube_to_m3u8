@@ -10,12 +10,15 @@ jobs:
   create_git_tag:
     runs-on: ubuntu-latest
     steps:
+      - name: checkout
+        uses: actions/checkout@v2
+
       - name: set tagname
         id: tag_name
         run: echo ::set-output name=tag_name::v$(cat Cargo.toml | grep -m1 "version" | cut -d " " -f 3 | tr -d '"')
 
-      - uses: actions/checkout@v2
-      - if: git describe --tags `git rev-list --tags --max-count=1` != ${{ steps.tag_name.outputs.tag_name }}
-      - run: |
+      - name: push tag
+        if: git describe --tags `git rev-list --tags --max-count=1` != ${{ steps.tag_name.outputs.tag_name }}
+        run: |
           git tag ${{ steps.tag_name.outputs.tag_name }}
           git push origin ${{ steps.tag_name.outputs.tag_name }}
