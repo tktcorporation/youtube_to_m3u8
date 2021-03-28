@@ -37,4 +37,9 @@ jobs:
           else
             echo ::set-output name=is_push::false
           fi
-             
+
+      - name: Push Tag
+        if: steps.check_push.outputs.is_push
+        run: |
+          git tag ${{ steps.tag_name.outputs.tag_name }}
+          git push origin ${{ steps.tag_name.outputs.tag_name }}
