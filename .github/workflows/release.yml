@@ -1,13 +1,37 @@
 name: Deploy
 on:
   push:
-    tags:
-      - "v*"
+    branches:
+      - master
+      - main
 
 jobs:
+  create_git_tag:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2.2.0
+        with:
+          fetch-depth: 0
+
+      - name: set tagname
+        id: tag_name
+        run: echo ::set-output name=tag_name::v$(cat Cargo.toml | grep -m1 "version" | cut -d " " -f 3 | tr -d '"')
+
+      - name: "Get Previous tag"
+        id: previoustag
+        uses: "WyriHaximus/github-action-get-previous-tag@v1"
+
+      - name: push tag
+        if: steps.previoustag.outputs.tag != steps.tag_name.outputs.tag_name
+        run: |
+          git tag ${{ steps.tag_name.outputs.tag_name }}
+          git push origin ${{ steps.tag_name.outputs.tag_name }}
+
   # Publish youtube_to_m3u8 to Crates.io
   cargo_publish:
     name: Publish Cargo Package
+    needs: create_git_tag
     runs-on: ubuntu-latest
     steps:
       - name: Setup | Checkout
@@ -50,6 +74,7 @@ jobs:
   # Build sources for every OS
   github_build:
     name: Build release binaries
+    needs: create_git_tag
     strategy:
       fail-fast: false
       matrix:
@@ -160,7 +185,7 @@ jobs:
   # Create GitHub release with Rust build targets and release notes
   github_release:
     name: Create GitHub Release
-    needs: github_build
+    needs: [github_build, create_git_tag]
     runs-on: ubuntu-latest
     steps:
       - name: Setup | Checkout
