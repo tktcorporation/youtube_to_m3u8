@@ -17,8 +17,12 @@ jobs:
         id: tag_name
         run: echo ::set-output name=tag_name::v$(cat Cargo.toml | grep -m1 "version" | cut -d " " -f 3 | tr -d '"')
 
+      - name: set latest tagname
+        id: latest_tag_name
+        run: echo ::set-output name=latest_tag_name::$(git describe --tags `git rev-list --tags --max-count=1`)
+
       - name: push tag
-        if: ${{ git describe --tags `git rev-list --tags --max-count=1`) }} != steps.tag_name.outputs.tag_name
+        if: steps.latest_tag_name.outputs.latest_tag_name != steps.tag_name.outputs.tag_name
         run: |
           git tag ${{ steps.tag_name.outputs.tag_name }}
           git push origin ${{ steps.tag_name.outputs.tag_name }}
