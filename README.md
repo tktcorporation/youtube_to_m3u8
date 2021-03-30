@@ -1,8 +1,11 @@
 # youtube_to_m3u8
 
-## What is this?
+## Overview
 
-A CLI tool to get a m3u8 url with video id from Youtube.
+This is a CLI tool to get a m3u8 url with video id from Youtube.
+
+- [Usage](#usage)
+- [Install](#install)
 
 ## Usage
 
