@@ -17,6 +17,10 @@ pub async fn request(id: &youtube::video::id::Id) -> Result<youtube::video::info
         .send()
         .await
         .unwrap();
+    match res.status() {
+        reqwest::StatusCode::OK => {},
+        _ => return Err(format!("status code: {}", res.status())),
+    };
     let body = &res.text().await.unwrap();
 
     match youtube::video::info::new(body) {
@@ -28,6 +32,7 @@ pub async fn request(id: &youtube::video::id::Id) -> Result<youtube::video::info
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::domain::models::youtube::video::info;
 
     #[test]
     fn it_string_join() {
@@ -38,10 +43,9 @@ mod tests {
 
     #[tokio::test]
     async fn it_request() {
-        let is = request(&youtube::video::id::new("rvkxtVkvawc"))
-            .await
-            .is_err();
-        assert_eq!(is, false);
+        let info = request(&youtube::video::id::new("rvkxtVkvawc"))
+            .await.unwrap();
+        assert_eq!(info, info::new("rvkxtVkvawc").unwrap());
     }
 
     #[tokio::test]

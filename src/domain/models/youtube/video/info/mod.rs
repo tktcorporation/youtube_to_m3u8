@@ -3,15 +3,18 @@ use regex::Regex;
 
 const NOT_FOUND_M3U8: &str = "A m3u8 url is not found: {}";
 
-#[derive(Debug)]
+#[derive(Debug, Clone, PartialEq)]
 pub struct Info {
     body: String,
 }
-pub fn new(body: &str) -> Result<Info, &str> {
+pub fn new(body: &str) -> Result<Info, String> {
     let re = Regex::new(r"(?P<status>status=(ok|fail))").unwrap();
-    let caps = re.captures(body).unwrap();
+    let caps = match re.captures(body) {
+        Some(caps) => caps,
+        None => return Err(format!("{}", body)),
+    };
     if caps["status"].to_string() == "status=fail" {
-        return Err("Invalid parameters body was received.");
+        return Err("Invalid parameters body was received.".to_string());
     }
     Ok(Info {
         body: body.to_string(),
