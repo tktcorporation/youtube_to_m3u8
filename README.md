@@ -1,5 +1,9 @@
 # youtube_to_m3u8
 
+> **Warning**  
+**Youtube returns "status code: 410 Gone" as https://www.youtube.com/get_video_info results.**  
+**This command can no longer be used.**
+
 ## Overview
 
 This is a CLI tool to get a m3u8 url with video id from Youtube.
